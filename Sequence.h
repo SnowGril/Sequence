@@ -15,11 +15,12 @@ public:
     Sequence(string FileName);
     
     int length();
-    int numberOf();
+    int numberOf(char base);
     string longestConsecutive();
     string longestRepeated();
 private:
     ifstream infile;   
+    string Filename;
     string obj; 
 };
 

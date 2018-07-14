@@ -8,15 +8,15 @@
 #include<cmath>
 using namespace std;
 
-Sequence::Sequence(string FileName)
+Sequence::Sequence(string filename)
 {
-  	infile.open(FileName.c_str());
-
+        Filename=filename;
+        infile.open(filename.c_str());
 }
-
 
 int Sequence::length()
 {
+
 	string  obj0;
 	getline(infile, obj0);
 	while (obj0.length()!= 0)
@@ -25,29 +25,20 @@ int Sequence::length()
 		getline(infile, obj0);
 	}
 	cout<< obj.length()<<endl;;
+        return obj.length();
 }
 
- int Sequence::numberOf()
+ int Sequence::numberOf(char base)
 {
-	int a = 0; int b = 0; int c = 0; int d = 0;
-
-	int l = obj.length();
-	for (int m = 0; m<l; m++)
-	{
-		if (obj[m] == 'A')
-			a++;
-		else if (obj[m] == 'C')
-			b++;
-		else if (obj[m] == 'T')
-			c++;
-		else if (obj[m] == 'G')
-			d++;
-	}
-	cout << "A=" << a << endl;
-	cout << "C=" << b << endl;
-	cout << "T=" << c << endl;
-	cout << "G=" << d << endl;
-	return 0;
+	int a = 0; 
+        int l=obj.length();
+        
+        for(int m=0;m<l;m++)
+        {
+          if(obj[m]==base)
+              a++;}
+	cout<<a<<endl;
+          return a;
 }
 
 string Sequence::longestConsecutive()
@@ -62,45 +53,42 @@ string Sequence::longestConsecutive()
 
 	while (i != l)
 	{
-		if (obj[i] == obj[i - 1])
+       	if (obj[i] == obj[i - 1])
+	{
+		len = i + 1 - n;
+		if (len>max)
 		{
-			len = i + 1 - n;
-			if (len>max)
-			{
-				max = len;
-				mn = n;
-			}
+			max = len;
+			mn = n;
+		}
 		}
 		else
-		{
-			n = i;
-		}
+		{	n = i;	}
 		++i;
 	}
 
 	cout<< obj.substr(mn, max)<<endl;
+        return  obj.substr(mn, max);
 }
 
-int comlen(char *p, char*q)
-{
-	int len = 0;
-	while (*p++ == *q++)
+int pstrcmp(const void *p, const void *q)
+    {    return strcmp( *(char* const*)p , *(char* const*)q);}
+
+int pointlen(char *a, char*b)
+{	int len = 0;
+	while (*a++ == *b++)
 		++len;
 	return len;
 }
 
-int pstrcmp(const void *p, const void *q)
-{
-	return strcmp( *(char* const*)p , *(char* const*)q);
-}
-
 string Sequence::longestRepeated()
 {
+  
 	int len = obj.length();
 	char *A = new char[len];
 	char **B = new char*[len];
-	ifstream fin("A.txt", ios::in);
-
+	ifstream fin;
+         fin.open(Filename.c_str());
 	int n = 0;
 	int l;
 	int longest = 0;
@@ -110,7 +98,7 @@ string Sequence::longestRepeated()
 	{
 		B[n] = &A[n];
 		if (fin.peek() != '\n')
-			A[n++] = fin.peek();
+		A[n++] = fin.peek();
 		fin.get();
 	}
 
@@ -120,7 +108,7 @@ string Sequence::longestRepeated()
 
 	for (int i = 0; i<n - 1; i++)
 	{
-		l = comlen(B[i], B[i + 1]);
+		l = pointlen(B[i], B[i + 1]);
 		if (l>longest)
 		{
 			longest = l;
@@ -129,4 +117,5 @@ string Sequence::longestRepeated()
 	}
 	string longestrepeated = B[index];
 	cout<< longestrepeated.substr(0, longest)<<endl;
+        return  longestrepeated.substr(0, longest);
 }

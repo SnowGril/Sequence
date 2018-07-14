@@ -6,10 +6,10 @@
 using namespace std;
 int main()
 {
-    Sequence a("A.txt");
+    Sequence a("dna.txt");
     
     a.length();
-    a.numberOf();
+    a.numberOf('A');
     a.longestConsecutive();
     a.longestRepeated();
     return 0;
